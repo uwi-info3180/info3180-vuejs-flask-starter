@@ -4,10 +4,13 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
-
+import os
 from app import app
 from flask import render_template, request, jsonify, send_file
-import os
+from app.models import Users, Cars, Favourites
+from werkzeug.utils import secure_filename
+from . import db
+from sqlalchemy import select
 
 
 ###
@@ -60,4 +63,8 @@ def add_header(response):
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
-    return render_template('404.html'), 404
+    return jsonify(error="Page Not Found"), 404
+
+
+if __name__ == '__main__':
+    app.run(debug=True,host="0.0.0.0",port="8080")
